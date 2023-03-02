@@ -13,6 +13,14 @@ describe('Models/tables', () => {
         // test suite is run
         await sequelize.sync({ force: true });
     });
+    //one-to-many association between User and Board models
+    User.hasMany(Board)
+    Board.belongsTo(User)
+
+    //Associates the Board and Cheese models with a Many-to-Many relationship.
+    Board.belongsToMany(Cheese, {through: "cheese_boards"})
+    Cheese.belongsToMany(Board, {through: "cheese_boards"})
+
     test("insert data into User table", async()=> {
         let user1 = await User.create({
             name: "anderson",
@@ -37,6 +45,24 @@ describe('Models/tables', () => {
         })
         expect(mozzarella.title).toBe("Mozzarella")
 
+    })
+
+    test("one-to-many association between User and Board models", async()=> {
+        expect(Board.belongsTo(User))
+        expect(User.hasMany(Board))
+    })
+    test("Board and Cheese models association", async()=> {
+        expect(Board.belongsToMany(Cheese, {through: "cheese_boards"}))
+        expect(Cheese.belongsToMany(Board, {through: "cheese_boards"}))
+    })
+    //Eager loading
+    test("Eager loading", async()=>{
+        const boardCheese = await Board.findAll({
+            include:[
+                {model: Cheese, as:"Cheeses"}
+            ]
+        })
+        console.log(boardCheese)
     })
  
 
