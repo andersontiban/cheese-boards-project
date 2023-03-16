@@ -14,6 +14,9 @@ describe('Models/tables', () => {
         await sequelize.sync({ force: true });
     });
     //one-to-many association between User and Board models
+
+    // instead of putting these associations in the test file, 
+    // we can make an index.js file in the models folder and put the associations there
     User.hasMany(Board)
     Board.belongsTo(User)
 
@@ -47,6 +50,9 @@ describe('Models/tables', () => {
 
     })
 
+    // instead of testing these methods when testing associations,
+    // we can add a couple of test data values to the tables
+    // and verify their attributes 
     test("one-to-many association between User and Board models", async()=> {
         expect(Board.belongsTo(User))
         expect(User.hasMany(Board))
@@ -63,6 +69,7 @@ describe('Models/tables', () => {
             ]
         })
         console.log(boardCheese)
+        // missing expectation statement in this test
     })
  
 

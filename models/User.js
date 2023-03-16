@@ -1,3 +1,4 @@
+// love the descriptive comments throughout!
 //importing database instance
 const sequelize = require("../index")
 //importing datatypes
